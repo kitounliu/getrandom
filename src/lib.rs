@@ -223,7 +223,7 @@ cfg_if! {
         #[path = "rdrand.rs"] mod imp;
     } else if #[cfg(all(feature = "js",
                         target_arch = "wasm32", target_os = "unknown"))] {
-        #[path = "js.rs"] mod imp;
+       #[path = "dummy.rs"] mod imp;
     } else if #[cfg(all(target_os = "horizon", target_arch = "arm"))] {
         // We check for target_arch = "arm" because the Nintendo Switch also
         // uses Horizon OS (it is aarch64).
@@ -232,10 +232,7 @@ cfg_if! {
     } else if #[cfg(feature = "custom")] {
         use custom as imp;
     } else if #[cfg(all(target_arch = "wasm32", target_os = "unknown"))] {
-        compile_error!("the wasm32-unknown-unknown target is not supported by \
-                        default, you may need to enable the \"js\" feature. \
-                        For more information see: \
-                        https://docs.rs/getrandom/#webassembly-support");
+         #[path = "dummy.rs"] mod imp;
     } else {
         compile_error!("target is not supported, for more information see: \
                         https://docs.rs/getrandom/#unsupported-targets");
